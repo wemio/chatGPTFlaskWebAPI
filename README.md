@@ -51,6 +51,7 @@ source.onmessage = function(event){
     }
  }
 ```
+::You should put the code page on your website,not together with app.py::
 In the flask app,get the question parameter
 ```python
 question = request.args.get("question","")
@@ -83,7 +84,8 @@ def stream():
 ```
 Then call the function to onload the app:
 ```python
-return render_template('chatpgt-clone.html')
+return render_template('chatpgt.html')
+#PAT:the page is in directory of "templates/"
 ```
 Last run the app:
 ```python
