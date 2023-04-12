@@ -2,11 +2,11 @@
 
 This a chatGPT API of openAI using python flask, HTML,jquery.
 
-##Introduction
+## Introduction
 This code implements any front-end web static page to call the python version of the chatGPT API, which is convenient for websites to integrate relevant applications into their own business.
 The general requirement is this: I have a website, but in the area that chatGPT cannot access, I need to submit a local data request to the proxy server, get the answer, and complete the business logic.
 
-##Question
+## Question
 Here's what happens when we call the openAI API:
 1, The questions will wait a long time.
 2, Unstable.
@@ -14,18 +14,20 @@ Here's what happens when we call the openAI API:
 4, can only be used locally, not remotely called.
 5. There are various problems with PHP or other request versions.
 
-##Method
+## Method
 1, python version of openAI installed, using the original module call, faster, better compatibility, and will not be blocked.
 2, Use python modules such as flask to publish port web services.
 3, Create a static web page by yourself. You can use html+jquery and eventSource to output stream information to the web page from the server.
 4, Use stream mode to get openAI's data.
 
-##Preparation
-###install openai
+## Preparation
+### install openai
 > pip install openai
+> 
 > pip install flask
+> 
 > pip install flask-cors
-###make a flask app with:
+### make a flask app with:
 ```python
 from flask import Flask, render_template, request, session
 import flask
@@ -35,7 +37,7 @@ app = Flask(__name__)
 app.config['SECRET_KEY'] = os.urandom(24)
 @app.route("/chatgpt",methods=["POST","GET"])
 ```
-###create a webpage using html/jquery in your website
+### create a webpage using html/jquery in your website
 Use eventSource to push the question
 onmessage:meet [done] stop,others continue..
 ```JAVASCRIPT
