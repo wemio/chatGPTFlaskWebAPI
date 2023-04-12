@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>chatGPT API Stream Demo</title>
+    </head>
+    <style type="text/css">
+        body{background-color: #333;}
+        .main{
+            margin:20px auto;
+            width:90%;
+            max-width:800px;
+            height:600px;
+        }
+        .chatOper{
+            padding:15px;
+            margin:0;
+            background-color:#ccc;
+        }
+        .chatInfo{
+            height:90%;
+            overflow-x:hidden;
+            overflow-y:auto;
+            padding:30px 20px;
+            margin:10px 0 0 0;
+            border:1px solid #ccc;
+            border-radius:5px;
+            background-color:#eee;
+            font-size:15px;
+            line-height:22px;
+            color:#393939;
+        }
+
+        #chatText{
+            width:85%;
+            height:25px;
+            line-height:25px;
+            display: inline-flex;
+            vertical-align:middle;
+            padding:5px;
+        }
+        #submitBtn{
+            display: inline-flex;
+            padding:10px 20px;
+            vertical-align:middle;
+        }
+
+    </style>
+    <body>
+        <div class="main">
+
+            <div class="chatInfo"></div>
+            <div class="chatOper">
+                <input type="text" id="chatText" placeholder="Input your question.." />
+                <input type="button" value="Submit" id="submitBtn" />
+            </div>
+            
+            
+        </div>
+    </body>
+    <script src="{{ url_for('static',filename='jquery.min.js')}}"></script>
+    <script src="{{ url_for('static',filename='marked.min.js')}}"></script>
+    <script language="javascript">
+    <!--
+        $(function() {
+
+            // enter push
+            $(document).keydown(function(event){
+            if(event.keyCode==13){
+                $("#submitBtn").click();
+                return false;
+            }
+            });
+
+            $("#chatText").focus();
+            $("#submitBtn").click(function(){
+                $(this).attr("disabled",true);
+                $(this).val("....");
+                var q = $("#chatText").val();
+                if(q==''){
+                    $(".chatInfo").html("Please input your question..");
+                    $(this).removeAttr("disabled");
+                    $(this).val("发送");
+                    $("#chatText").focus();
+                    return;
+                }
+                var eventEn = false;
+                $(".chatInfo").html("I am thinking...");
+                var source = new EventSource("/chatgpt?question="+q);
+                source.onmessage = function(event){
+                    if (eventEn === false){
+                        eventEn = true;
+                        $(".chatInfo").html("");
+                    }
+                    if(event.data == "[DONE]"){
+                        $("#submitBtn").removeAttr("disabled");
+                        $("#submitBtn").val("Submit");
+                        $("#chatText").val('');
+                        $("#chatText").focus();
+                        source.close();
+                    }else{
+                        $(".chatInfo").html($(".chatInfo").html() + event.data);
+                    }
+                }
+            });
+        });
+    -->
+    </script>
+</html>
