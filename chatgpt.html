@@ -1,0 +1,176 @@
+	<style type="text/css">
+		body{
+			background-color: #333;
+			margin:0;
+			padding:0;
+		}
+
+		.main{
+			position:relative;
+			overflow:hidden;
+			background-color:#fff;
+			
+		}
+		.chatOper{
+			padding:15px;
+			width:95%;
+			background-color:#66CCFF;
+			position:absolute;
+			bottom:0;
+			left:0;
+			text-align:center;
+		}
+		.chatInfo{
+			height:70%;
+			overflow-x:hidden;
+			overflow-y:auto;
+			padding:30px 20px;
+			margin:0;
+			background-color:#fff;
+			font-size:15px;
+			line-height:22px;
+			color:#393939;
+		}
+
+		#chatText{
+			width:70%;
+			line-height:25px;
+			display: inline-flex;
+			vertical-align:middle;
+			padding:5px;
+		}
+		#submitBtn{
+			display: inline-flex;
+			padding:10px 20px;
+			vertical-align:middle;
+			background-color:#CCFFFF;
+			border-radius:5px;
+		}
+		.code{
+			background-color:black;
+			color:white;
+			padding:10px;
+			border-radius:5px;
+			line-height:20px;
+			font-size:14px;
+		}
+		span.lang{
+			color:#fcd;
+		}
+		.footer{
+			font-size:13px;
+			color:gray;
+			text-align:right;
+			padding:5px;
+		}
+		.logo{
+			padding:20px;
+			background-color:#000;
+		}
+		.logo img{
+			width:200px;
+		}
+
+	</style>
+	<div class="main">
+		<div class="logo">
+			<img src="gptlogo.png">
+		</div>
+		<div class="chatInfo"></div>
+		<div class="chatOper">
+			<input type="text" id="chatText" placeholder="Input your question.." />
+			<input type="button" value="Submit" id="submitBtn" />
+		</div>           
+	</div>
+
+	<div class="footer">&copy;2023 WEMIO.inc</div>
+
+	<script language="javascript">
+    <!--
+        $(function() {
+
+                var _height = $(window).height();
+                $(".main").css("height",_height*0.9+"px");
+
+                // enter push
+                $(document).keydown(function(event){
+                  if(event.keyCode==13){
+                      $("#submitBtn").click();
+                      return false;
+                  }
+                });
+
+                //$("#chatText").focus();
+                $("#submitBtn").click(function(){
+                  
+                  $(this).attr("disabled",true);
+                  $(this).val("....");
+                  var q = $("#chatText").val();
+                  
+                  if(q==""){
+                      $(".chatInfo").html("Please input your question..");
+                      $(this).removeAttr("disabled");
+                      $(this).val("Submit");
+                      $("#chatText").focus();
+                      return;
+                  }
+                  
+                  var eventEn = false;
+                  var _html = "";
+                  $(".chatInfo").html("I am thinking,please wait a while...");
+                  
+                  //use EventSource
+                  var source = new EventSource("http://xxx.xxx.xxx:xxx/chatgpt?question="+q);
+                  source.onmessage = function(event){
+                      
+                      if (eventEn === false){
+                          eventEn = true;
+                          $(".chatInfo").html("");
+                      }
+                      
+                      if(event.data == "[DONE]"){
+                          $("#submitBtn").removeAttr("disabled");
+                          $("#submitBtn").val("Submit");
+                          $("#chatText").val("");
+                          //$("#chatText").focus();
+                          source.close();
+                      }
+                      
+                      else{
+                          _html += event.data; 
+                          //$(".chatInfo").html($(".chatInfo").html() + event.data);
+                          //var _html = $(".chatInfo").html();
+                          if(_html.indexOf("```")!=-1){
+                            var _htmlArr = _html.split("```");
+                            //console.log(_htmlArr);
+                            _tmp = "";
+                            for(var i=0;i<_htmlArr.length;i++){
+                              if(i % 2 == 0){
+                                _tmp += _htmlArr[i];
+                              }else{
+                                _tmp += "<div class=code>"+ _htmlArr[i]+"</div>";
+                              }
+                            }
+                            $(".chatInfo").html("<h2>"+q+"</h2>"+_tmp);
+                          }else{
+                            $(".chatInfo").html("<h2>"+q+"</h2>"+_html);			
+                          }
+                      }
+                  }//end onmessage
+
+                  //save to your site
+                  //saveQS(q,$(".chatInfo").html());
+
+
+                });
+        });
+
+		//save the data
+		function saveQS(q,a){
+			//you can use ajax to upload the data to your database with PHP or others.
+		}
+
+
+	
+    -->
+    </script>
